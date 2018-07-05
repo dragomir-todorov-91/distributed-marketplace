@@ -1,2 +1,2 @@
 # distributed-marketplace
-Project 2 for Blockchain Dev Camp
+Project 2 for Blockchain Dev Course
