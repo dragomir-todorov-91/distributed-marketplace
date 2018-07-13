@@ -1,0 +1,8 @@
+We use the following command to run test server
+npm run test:run:server
+
+And the following to run the coverage:
+npm run test:coverage
+
+And the following for just tests:
+npm run test
