@@ -18,7 +18,46 @@
 
 <script type="application/javascript">
 
+	/*
+	
+	ipfs interactions for file
+	
+	  captureFile (event) {
+		event.stopPropagation()
+		event.preventDefault()
+		const file = event.target.files[0]
+		let reader = new window.FileReader()
+		reader.onloadend = () => this.saveToIpfs(reader)
+		reader.readAsArrayBuffer(file)
+	  }
 
+	  saveToIpfs (reader) {
+		let ipfsId
+		const buffer = Buffer.from(reader.result)
+		this.ipfsApi.add(buffer, { progress: (prog) => console.log(`received: ${prog}`) })
+		  .then((response) => {
+			console.log(response)
+			ipfsId = response[0].hash
+			console.log(ipfsId)
+			this.setState({added_file_hash: ipfsId})
+		  }).catch((err) => {
+			console.error(err)
+		  })
+	  }
+
+	  handleSubmit (event) {
+		event.preventDefault()
+	}
+	
+	*/
+	
+	function createNewItem() {
+	}
+	
+	
+	
+	
+	
 	var port = "8080";
 
 	var getUrlParameter = function getUrlParameter(sParam) {
@@ -272,150 +311,50 @@ function setHeader(xhr) {
 <div class="bs-example">
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#sectionA">Blocks</a></li>
-        <li><a data-toggle="tab" href="#sectionB">Confirmed Transactions</a></li>
-        <li><a data-toggle="tab" href="#sectionC">Pending Transactions</a></li>
-        <li><a data-toggle="tab" href="#sectionD">Peers</a></li>
-        <li><a data-toggle="tab" href="#sectionE">Accounts and balances</a></li>
-        <li><a data-toggle="tab" href="#sectionF">Faucet</a></li>
-        <li><a data-toggle="tab" href="#sectionG">Wallet</a></li>
-        <li><a data-toggle="tab" href="#sectionH">Sender</a></li>
+        <li><a data-toggle="tab" href="#sectionA">Add</a></li>
+        <li><a data-toggle="tab" href="#sectionB">View</a></li>
         <li class='pull-right'><h4>ShumenCoin Command Center</h4></li>
     </ul>
     <div class="tab-content">
         <div id="sectionA" class="tab-pane fade in active">
-            <h3>Blocks</h3>
-			<div class="container-fluid">
-				<table id="block-table" class="table table-striped table-bordered">
-					<thead>
-						<tr>
-							<th>Index</th>
-							<th>Dificulty</th>
-							<th>MinedBy</th>
-							<th>Nonce</th>
-							<th>CreationDate</th>
-							<th>BlockDataHash</th>
-							<th>BlockHash</th>
-							<th>PrevBlockHash</th>
-							<th>Transactions</th>
-						</tr>
-					</thead>
-					<tbody id="block-table-body">
-					</tbody>
-				</table>
+            <h3>Create new item</h3>
+			<div id="sectionA" class="tab-pane fade">
+				<h3>Sender</h3>
+				<div class="container-fluid">
+					<form class="form" id="sender">
+						<label for="picture">Picture:</label>
+						<input type="file" accept="image/png, image/jpeg" name="picture" id="picture"/></br>
+						<label for="itemName">Item Name</label>
+						<input type="text" style="width:400px" name="itemName" id="itemName"></br>
+						<label for="itemDescription">Description:</label>
+						<input type="text-area" style="width:400px" id="itemDescription" name="itemDescription"></br>
+						<label for="itemUrl">Description:</label>
+						<input type="text" style="width:400px" id="itemUrl" name="itemUrl"></br>
+						<button id="submit" onclick="javascript:createNewItem(); return false;" class="btn btn-default">Submit</button> </br></br>
+					</form>
+					<div id="transaction_response"></div>
+				</div>
 			</div>
-        </div>
-        <div id="sectionB" class="tab-pane fade">
-            <h3>Confirmed Transactions</h3>
-			<div class="container-fluid">
-				<table id="confirmed-transactions-table" class="table table-striped table-bordered">
-					<thead>
-						<tr>
-							<th>From</th>
-							<th>To</th>
-							<th>Value</th>
-							<th>Fee</th>
-							<th>Date Created</th>
-							<th>Data</th>
-							<th>SenderPubKey</th>
-							<th>TransactionDataHash</th>
-							<th>MinedInBlockIndex</th>
-							<th>Transfer Successfull</th>
-						</tr>
-					</thead>
-					<tbody id="confirmed-transactions-table-body">
-					</tbody>
-				</table>
-			</div>
-        </div>
-        <div id="sectionC" class="tab-pane fade">
-            <h3>Pending Transactions</h3>
-			<div class="container-fluid">
-				<table id="pending-transactions-table" class="table table-striped table-bordered">
-					<thead>
-						<tr>
-							<th>From</th>
-							<th>To</th>
-							<th>Value</th>
-							<th>Fee</th>
-							<th>Date Created</th>
-							<th>Data</th>
-							<th>SenderPubKey</th>
-							<th>TransactionDataHash</th>
-							<th>MinedInBlockIndex</th>
-							<th>Transfer Successfull</th>
-						</tr>
-					</thead>
-					<tbody id="pending-transactions-table-body">
-					</tbody>
-				</table>
-			</div>
-        </div>
-        <div id="sectionD" class="tab-pane fade">
-            <h3>Peers</h3>
-			<div class="container-fluid">
-				<table id="peers-table" class="table table-striped table-bordered">
-					<thead>
-						<tr>
-							<th>NodeID</th>
-							<th>URL</th>
-						</tr>
-					</thead>
-					<tbody id="peers-table-body">
-					</tbody>
-				</table>
-			</div>
-        </div>
-        <div id="sectionE" class="tab-pane fade">
-            <h3>Accounts and balances</h3>
-			<div class="container-fluid">
-				<table id="balances-table" class="table table-striped table-bordered">
-					<thead>
-						<tr>
-							<th style="width:33%">Address</th>
-							<th style="width:33%">Confirmed balance</th>
-							<th style="width:33%">Pending balance</th>
-						</tr>
-					</thead>
-					<tbody id="balances-table-body">
-					</tbody>
-				</table>
-			</div>
-        </div>
-        <div id="sectionF" class="tab-pane fade">
-            <h3>Faucet</h3>
-			<div class="container-fluid">
-				<label for="address">Address of receiver (PublicKey):</label>
-				<input type="address" style="width:400px" id="address"> <button onclick="javascript:createNewFaucetTransaction()" class="btn btn-default">Submit</button>
-				<div id="alert-container"></div>
-			</div>
-        </div>
-        <div id="sectionG" class="tab-pane fade">
-            <h3>Wallet</h3>
-			<div class="container-fluid">
-				<label for="password">Encrypt your password:</label>
-				<input type="password" style="width:400px" id="password"> <button id="submit" onclick="javascript:createNewWallet()" class="btn btn-default">Submit</button>
-				<div id="json-container"></div>
-			</div>
-        </div>
-        <div id="sectionH" class="tab-pane fade">
-            <h3>Sender</h3>
-			<div class="container-fluid">
-				<label for="json">JSON:</label>
-				<input type="text-area" style="width:400px" name="json" id="json_tr"></br>
-				<label for="password">Password:</label>
-				<input type="text" style="width:400px" id="password_tr" name="password"> 
-				<form class="form" id="sender">
-					<label for="to">To:</label>
-					<input type="text" style="width:400px" name="to"> </br>
-					<label for="value">Value:</label>
-					<input type="text" style="width:400px" name="value"> </br>
-					<label for="fee">Fee:</label>
-					<input type="text" style="width:400px" name="fee"> </br>
-					<label for="data">Data:</label>
-					<input type="text" style="width:400px" name="data"> </br>
-					<button id="submit" onclick="javascript:createTransaction(); return false;" class="btn btn-default">Submit</button> </br></br>
-				</form>
-				<div id="transaction_response"></div>
+			<div id="sectionA" class="tab-pane fade">
+				<div class="container-fluid">
+					<table id="block-table" class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Index</th>
+								<th>Dificulty</th>
+								<th>MinedBy</th>
+								<th>Nonce</th>
+								<th>CreationDate</th>
+								<th>BlockDataHash</th>
+								<th>BlockHash</th>
+								<th>PrevBlockHash</th>
+								<th>Transactions</th>
+							</tr>
+						</thead>
+						<tbody id="block-table-body">
+						</tbody>
+					</table>
+				</div>
 			</div>
         </div>
     </div>
