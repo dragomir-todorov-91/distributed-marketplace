@@ -1,0 +1,33 @@
+{
+  "name": "dcurator",
+  "version": "1.0.0",
+  "description": "",
+  "main": ".solcover.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "ganache-cli": "^6.1.6",
+    "node-gyp": "^3.7.0",
+    "rebuild": "^0.1.2"
+  },
+  "devDependencies": {
+    "solidity-coverage": "^0.5.5"
+  },
+  "scripts": {
+    "test": "truffle test",
+    "test:run:server": "testrpc-sc --port 8555 -l 0xfffffffffff -g 0x01",
+    "test:coverage": "solidity-coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dragomir-todorov-91/distributed-marketplace.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dragomir-todorov-91/distributed-marketplace/issues"
+  },
+  "homepage": "https://github.com/dragomir-todorov-91/distributed-marketplace#readme"
+}
