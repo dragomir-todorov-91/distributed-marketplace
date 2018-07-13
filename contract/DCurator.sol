@@ -17,7 +17,7 @@ contract DCurator {
         uint votes; // count of votes
         uint rank; // this is calculated rank based on views/votes
         uint contentType; // default is 0 which is video
-        // TODO image object stored in ipfs
+		string ipfsHash;
     }
     
     uint itemId;
@@ -32,10 +32,10 @@ contract DCurator {
     // validate input with 
     // CreateItem -> 1 test
     function createItem(string _itemName, string _itemUrl, string _curatorName,
-        address _supportAddress) external returns (uint) {  // TODO add input ipfs image
+        address _supportAddress, string _ipfsHash) external returns (uint) {  // TODO add input ipfs image
         uint id = itemId++;
         Item memory it = Item({id:id, itemName:_itemName, itemUrl:_itemUrl, curatorName:_curatorName, supportAddress: _supportAddress, 
-        views: 0, votes: 0, rank: 5, contentType:0});
+        views: 0, votes: 0, rank: 5, contentType:0, ipfsHash: _ipfsHash});
         items[it.id] = it;
         return it.id;
     }
@@ -55,10 +55,10 @@ contract DCurator {
     }
     
     // Return item by id
-    function getItemById(uint id) view public returns(uint, string, string, string, address, uint, uint, uint, uint) {
+    function getItemById(uint id) view public returns(uint, string, string, string, address, uint, uint, uint, uint, string) {
         Item memory item = items[id];
         return (id, item.itemName, item.itemUrl, item.curatorName, item.supportAddress, item.views, 
-            item.votes, item.rank, item.contentType );
+            item.votes, item.rank, item.contentType, item.ipfsHash );
     }
     
     // Update item views
@@ -108,7 +108,7 @@ contract DCurator {
     
     function transfer(address to, uint ammount) external returns (string) {
         require(ammount > 0);
-        require(tokens[msg.sender] - ammount > 0);
+        require(tokens[msg.sender] >= ammount);
 		
         tokens[to] += ammount;
         tokens[creator] -= ammount;
@@ -116,7 +116,7 @@ contract DCurator {
     
     function requestTokens(uint ammount) external returns (string) {
         require(ammount > 0);
-        require(tokens[creator] - ammount > 0);
+        require(tokens[creator] >= ammount);
 		
 		tokens[msg.sender] = tokens[msg.sender] + ammount;
 		tokens[creator] = tokens[creator] - ammount; 
