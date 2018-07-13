@@ -41,14 +41,17 @@ contract DCurator {
     }
   
     // Update vote -> 2 unit tests
-    function updateVote(uint id, bool _vote) external {
+    function updateVote(uint id, bool _vote) external returns(uint256){
         items[id].votes += 1;
         uint delta = items[id].rank / items[id].votes;
+        uint256 newRank;
         if(_vote) {
-            items[id].rank += delta;
+            newRank = items[id].rank + delta;
         } else {
-            items[id].rank -= delta;
+            newRank = items[id].rank - delta;
         }
+        items[id].rank = newRank;
+		return newRank;
     }
     
     // Return item by id
