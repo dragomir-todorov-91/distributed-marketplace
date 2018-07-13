@@ -1,0 +1,15 @@
+{
+  "name": "dcurator",
+  "version": "1.0.0",
+  "description": "DCurator is the second application for blockchain course",
+  "main": "DCurrator.html",
+  "dependencies": {
+    "web3": "^1.0.0-beta.34"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dragomir Todorov",
+  "license": "ISC"
+}
